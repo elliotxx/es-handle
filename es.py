@@ -280,16 +280,18 @@ es.py localhost search
         '''
     }
     printx(h['basic'])
-    printx('例子：')
     if   args['help'] == 'cmd':
+        printx('例子：')
         printx(h['addr'])
         printx(h['insert'])
         printx(h['delete'])
         printx(h['update'])
         printx(h['search'])
     elif args['help'] == 'addr':
+        printx('例子：')
         printx(h['addr'])
     elif args['help'] == 'op':
+        printx('例子：')
         printx(h[args['op']])
 
 
