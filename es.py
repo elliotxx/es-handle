@@ -164,6 +164,13 @@ def Update(es,args):
         # 什么参数都没提供
         raise Exception,'参数错误：没有更新对象'
 
+
+def Cat(es,args):
+    '''在 ElasticSearch 中查看状态'''
+    res = es.cat.indices(v=True)
+    printx('查看结果：')
+    printx(res)
+
     
 def Search(es,args):
     '''在 ElasticSearch 中查询数据'''
@@ -198,7 +205,8 @@ def Info(es,args):
 def Help(args):
     '''帮助信息'''
     h = {
-        'basic' : '''命令格式：
+        'basic' : 
+'''命令格式：
 es.py [-h] IP[:port] [-h|option] [-h|index] [type] [id]
 
 option:
@@ -221,11 +229,15 @@ update - 更新指定 ElasticSearch 文档内容
 search - 查询 ElasticSearch 指定内容
     支持 查询指定id的文档内容、查询指定type、查询指定index、
     查询所有index 四种格式
-        ''',
-        'addr' : '''# 查看 ElasticSearch 连接状态
+cat    - 查看 ElasticSearch 指定状态
+    默认查看当前所有索引
+''',
+        'addr' : 
+'''# 查看 ElasticSearch 连接状态
 es.py localhost
         ''',
-        'insert' : '''# 增(insert)
+        'insert' : 
+'''# 增(insert)
 # 1. 插入指定 id 的文档
 es.py localhost:9200 insert test_index test_type 1
 {
@@ -250,16 +262,18 @@ es.py localhost insert test_index_2
         }
     }
 }
-        ''',
-        'delete' : '''# 删(delete)
+''',
+        'delete' : 
+'''# 删(delete)
 # 1. 删除指定 id 的文档
 es.py localhost delete test_index test_type 1
 # 2. 删除整个类型(type)
 es.py localhost delete test_index test_type
 # 3. 删除整个索引(index)
 es.py localhost delete test_index
-        ''',
-        'update' : '''# 改(update)
+''',
+        'update' : 
+'''# 改(update)
 # 1. 更新指定id的文档内容(更新的内容应包含在 "doc" 关键字中)
 es.py localhost update test_index test_type 1
 {
@@ -267,8 +281,9 @@ es.py localhost update test_index test_type 1
         "content" : "hello world"
     }
 }
-        ''',
-        'search' : '''# 查(search)
+''',
+        'search' : 
+'''# 查(search)
 # 1. 查询指定id的文档内容
 es.py localhost search test_index test_type 1
 # 2. 查询指定type
@@ -277,7 +292,12 @@ es.py localhost search test_index test_type
 es.py localhost search test_index
 # 4. 查询所有index
 es.py localhost search
-        '''
+''',
+        'cat' : 
+'''# 看(cat)
+# 1. 查看 ElasticSearch 所有索引 
+es.py localhost cat
+'''
     }
     printx(h['basic'])
     if   args['help'] == 'cmd':
@@ -287,6 +307,7 @@ es.py localhost search
         printx(h['delete'])
         printx(h['update'])
         printx(h['search'])
+        printx(h['cat'])
     elif args['help'] == 'addr':
         printx('例子：')
         printx(h['addr'])
@@ -314,6 +335,8 @@ def main():
             Update(es,args)
         elif args['op'] == 'search':
             Search(es,args)
+        elif args['op'] == 'cat':
+            Cat(es,args)
         elif args['op'] ==  None:
             Info(es,args)
         else:

@@ -57,6 +57,8 @@ update - 更新指定 ElasticSearch 文档内容
 search - 查询 ElasticSearch 指定内容
     支持 查询指定id的文档内容、查询指定type、查询指定index、
     查询所有index 四种格式
+cat    - 查看 ElasticSearch 指定状态
+    默认查看当前所有索引
 
 例子：
 # 查看 ElasticSearch 连接状态
@@ -114,6 +116,10 @@ es.py localhost search test_index test_type
 es.py localhost search test_index
 # 4. 查询所有index
 es.py localhost search
+
+# 看(cat)
+# 1. 查看 ElasticSearch 所有索引
+es.py localhost cat
 ```
 
 #### 参考资料
