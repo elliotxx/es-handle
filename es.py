@@ -37,22 +37,15 @@ def printx(s, end = '\n'):
 
 def getArguments():
     '''获取参数'''
-    args = {}
+    args = {'op':None}
     args_num = len(sys.argv)
-
-    # 提取帮助选项
-    # for i,arg in enumerate(sys.argv):
-    #   if arg == '-h':
-    #       args['op'] = 'help'
-    #       del sys.argv[i]
-
 
     # 获得对应参数
     for i in range(1,args_num):
-        if sys.argv[i] == '-h':
-            args['op'] = 'help'
-        elif not args.has_key(argname_list[i]):
-            args[argname_list[i]] = sys.argv[i]
+        if sys.argv[i] == '-h' or sys.argv[i] == '--help':
+            args['help'] = argname_list[i-1]
+            break
+        args[argname_list[i]] = sys.argv[i]
 
     # 简单的参数验证
     if not (Argument_Num_Min_Limit <= args_num <= Argument_Num_Max_Limit):
@@ -195,11 +188,17 @@ def Search(es,args):
     printx(res)
 
 
+def Info(es,args):
+    '''获取 ElasticSearch 连接信息'''
+    printx('Elasticsearch <%s:%s> 连接信息：'%(args['host'],args['port']))
+    printx(es.info())
 
-def Help():
+
+def Help(args):
     '''帮助信息'''
-    info = '''命令格式：
-es.py IP[:port] [option] [index] [type] [id]
+    h = {
+        'basic' : '''命令格式：
+es.py [-h] IP[:port] [-h|option] [-h|index] [type] [id]
 
 option:
 insert - 向 ElasticSearch 插入数据
@@ -221,13 +220,11 @@ update - 更新指定 ElasticSearch 文档内容
 search - 查询 ElasticSearch 指定内容
     支持 查询指定id的文档内容、查询指定type、查询指定index、
     查询所有index 四种格式
-
-
-例子：
-# 查看 ElasticSearch 连接状态
+        ''',
+        'addr' : '''# 查看 ElasticSearch 连接状态
 es.py localhost
-
-# 增(insert)
+        ''',
+        'insert' : '''# 增(insert)
 # 1. 插入指定 id 的文档
 es.py localhost:9200 insert test_index test_type 1
 {
@@ -252,16 +249,16 @@ es.py localhost insert test_index_2
         }
     }
 }
-
-# 删(delete)
+        ''',
+        'delete' : '''# 删(delete)
 # 1. 删除指定 id 的文档
 es.py localhost delete test_index test_type 1
 # 2. 删除整个类型(type)
 es.py localhost delete test_index test_type
 # 3. 删除整个索引(index)
 es.py localhost delete test_index
-
-# 改(update)
+        ''',
+        'update' : '''# 改(update)
 # 1. 更新指定id的文档内容(更新的内容应包含在 "doc" 关键字中)
 es.py localhost update test_index test_type 1
 {
@@ -269,8 +266,8 @@ es.py localhost update test_index test_type 1
         "content" : "hello world"
     }
 }
-
-# 查(search)
+        ''',
+        'search' : '''# 查(search)
 # 1. 查询指定id的文档内容
 es.py localhost search test_index test_type 1
 # 2. 查询指定type
@@ -279,9 +276,20 @@ es.py localhost search test_index test_type
 es.py localhost search test_index
 # 4. 查询所有index
 es.py localhost search
-    '''
-    printx(info)
-    
+        '''
+    }
+    printx(h['basic'])
+    printx('例子：')
+    if   args['help'] == 'cmd':
+        printx(h['addr'])
+        printx(h['insert'])
+        printx(h['delete'])
+        printx(h['update'])
+        printx(h['search'])
+    elif args['help'] == 'addr':
+        printx(h['addr'])
+    elif args['help'] == 'op':
+        printx(h[args['op']])
 
 
 def main():
@@ -291,31 +299,26 @@ def main():
     # 尝试连接 ElasticSearch
     es = connElasticsearch(args)
     # 进行增删改查操作
-    if args.has_key('op'):
-        if args['op']=='insert':
-            Insert(es,args)
-        elif args['op']=='delete':
-            Delete(es,args)
-        elif args['op']=='update':
-            Update(es,args)
-        elif args['op']=='search':
-            Search(es,args)
-        elif args['op']=='help':
-            Help()
-        else:
-            pass
+    if args.has_key('help'):
+        Help(args)
+    elif args['op'] == 'insert':
+        Insert(es,args)
+    elif args['op'] == 'delete':
+        Delete(es,args)
+    elif args['op'] == 'update':
+        Update(es,args)
+    elif args['op'] == 'search':
+        Search(es,args)
+    elif args['op'] ==  None:
+        Info(es,args)
     else:
-        # 获取 ElasticSearch 连接信息
-        printx('Elasticsearch <%s:%s> 连接信息：'%(args['host'],args['port']))
-        printx(es.info())
+        pass
 
 
 
 
 if __name__=='__main__':
-    '''
-    main()
-    '''
+    # main()
     try:
         main()
     except Exception,e:
