@@ -156,7 +156,7 @@ http://blog.csdn.net/five3/article/details/8098556
 [解决办法]Python中使用json.loads解码字符串时出错：ValueError: Expecting property name: line 1 column 2 (char 1)（json.loads不能处理单引号的解决办法）  
 http://blog.csdn.net/sinsa110/article/details/51189456
 
-
-
+python dict按照value 排序（对 dict 进行排序）  
+http://blog.csdn.net/buster2014/article/details/50939892
 
 
