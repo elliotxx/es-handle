@@ -296,24 +296,27 @@ def main():
     '''主函数'''
     # 获得参数
     args = getArguments()
-    # 尝试连接 ElasticSearch
-    es = connElasticsearch(args)
-    # 进行增删改查操作
+    # 判断是否需要输出帮助信息
     if args.has_key('help'):
         Help(args)
-    elif args['op'] == 'insert':
-        Insert(es,args)
-    elif args['op'] == 'delete':
-        Delete(es,args)
-    elif args['op'] == 'update':
-        Update(es,args)
-    elif args['op'] == 'search':
-        Search(es,args)
-    elif args['op'] ==  None:
-        Info(es,args)
     else:
-        pass
+        # 尝试连接 ElasticSearch
+        es = connElasticsearch(args)
+        # 进行增删改查操作
+        if args['op'] == 'insert':
+            Insert(es,args)
+        elif args['op'] == 'delete':
+            Delete(es,args)
+        elif args['op'] == 'update':
+            Update(es,args)
+        elif args['op'] == 'search':
+            Search(es,args)
+        elif args['op'] ==  None:
+            Info(es,args)
+        else:
+            pass
 
+    print sys.argv
 
 
 
