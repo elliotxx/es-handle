@@ -1,5 +1,11 @@
 ### es-handle - 使用 python client 对 ElasticSearch 进行常用的增删改查操作
 
+#### 声明
+* 运行环境：python 2.7
+* 依赖：elasticsearch ，安装依赖：pip install elasticsearch
+* windows 和 linux 环境均已通过测试 
+* 如果有问题，请及时反馈给我
+
 #### 完成清单
 * 增删改查操作：√ 
 * -h 帮助信息：√

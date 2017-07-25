@@ -29,6 +29,7 @@ def printx(s, end = '\n'):
         sys.stdout.write(s)
     elif isinstance(s,dict):
         s = json.dumps(s, indent=4, ensure_ascii=False)
+        s += end
         s = s.encode(output_encoding)
         sys.stdout.write(s)
     else:
