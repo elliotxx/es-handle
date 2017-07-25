@@ -165,13 +165,6 @@ def Update(es,args):
         raise Exception,'参数错误：没有更新对象'
 
 
-def Cat(es,args):
-    '''在 ElasticSearch 中查看状态'''
-    res = es.cat.indices(v=True)
-    printx('查看结果：')
-    printx(res)
-
-    
 def Search(es,args):
     '''在 ElasticSearch 中查询数据'''
     if args.has_key('index'):
@@ -195,6 +188,12 @@ def Search(es,args):
     printx('查询结果：')
     printx(res)
 
+
+def Cat(es,args):
+    '''在 ElasticSearch 中查看状态'''
+    res = es.cat.indices(v=True)
+    printx('查看结果：')
+    printx(res)
 
 def Info(es,args):
     '''获取 ElasticSearch 连接信息'''
