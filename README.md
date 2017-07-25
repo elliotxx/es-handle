@@ -26,6 +26,90 @@
 | index         | es.indices.create()| es.indices.delete()  | ×           | es.search() |
 | null          | ×                  | ×                    | ×           | es.search() |
 
+#### Usage
+```
+命令格式：
+es.py [-h] IP[:port] [-h|option] [-h|index] [type] [id]
+
+option:
+insert - 向 ElasticSearch 插入数据
+    支持 插入指定id的文档、插入不指定id的文档、仅创建 index 三种格式
+delete - 从 ElasticSearch 删除数据
+    支持 删除文档、删除整个类型(type)、删除整个索引(index) 三种格式
+    注意：如果类型中数据过多，删除操作会异步进行
+update - 更新指定 ElasticSearch 文档内容
+    支持 更新指定id的文档内容 一种格式
+    注意：更新的内容应包含在 "doc" 关键字中，例：
+    es.py localhost update test_index test_type 1
+    {
+       "doc":{
+           "content" : "hello world"
+       }
+    }
+    如此，索引 test_index 的类型 test_type 中 id 为 1 的文档的
+    content 字段内容更新为"hello world"
+search - 查询 ElasticSearch 指定内容
+    支持 查询指定id的文档内容、查询指定type、查询指定index、
+    查询所有index 四种格式
+
+例子：
+# 查看 ElasticSearch 连接状态
+es.py localhost
+
+# 增(insert)
+# 1. 插入指定 id 的文档
+es.py localhost:9200 insert test_index test_type 1
+{
+    "title" : "Good morning",
+    "content" : "hello"
+}
+# 2. 插入不指定 id 的文档
+es.py localhost insert test_index test_type
+输入同上...
+# 3. 创建 index
+es.py localhost insert test_index_2
+{
+    "settings" : {
+        "number_of_shards" : 1
+    },
+    "mappings" : {
+        "test_type_2" : {
+            "properties" : {
+                "title" : { "type" : "text" },
+                "content" : { "type" : "text" }
+            }
+        }
+    }
+}
+
+# 删(delete)
+# 1. 删除指定 id 的文档
+es.py localhost delete test_index test_type 1
+# 2. 删除整个类型(type)
+es.py localhost delete test_index test_type
+# 3. 删除整个索引(index)
+es.py localhost delete test_index
+
+# 改(update)
+# 1. 更新指定id的文档内容(更新的内容应包含在 "doc" 关键字中)
+es.py localhost update test_index test_type 1
+{
+    "doc": {
+        "content" : "hello world"
+    }
+}
+
+# 查(search)
+# 1. 查询指定id的文档内容
+es.py localhost search test_index test_type 1
+# 2. 查询指定type
+es.py localhost search test_index test_type
+# 3. 查询指定index
+es.py localhost search test_index
+# 4. 查询所有index
+es.py localhost search
+```
+
 #### 参考资料
 ElasticSearch Python Client API（官方文档）  
 http://elasticsearch-py.readthedocs.io/en/master/api.html
