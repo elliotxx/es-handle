@@ -14,17 +14,17 @@
 | index,type,id | √     | √     | √     | √     |
 | index,type    | √     | √     | ×     | √     |
 | index         | √     | √     | ×     | √     |
-| null          | ×     | ×     | ×     | ×     |
+| null          | ×     | ×     | ×     | √     |
 
     
 #### 各参数组合使用的 ElasticSearch Python Client API
 
-| | 增（insert） | 删（delete） | 改（update） | 查（search） |
-| -------- | -------- | -------- | -------- | -------- |
-| index,type,id | es.index()     | es.delete()          | es.update() | es.get()    |
-| index,type    | es.index()     | es.delete_by_query() | ×           | es.search() |
-| index         | es.create()    | es.indices.delete()  | ×           | es.search() |
-| null          | ×              | ×                    | ×           | ×           |
+| | 增（insert） | 删（delete）       | 改（update） | 查（search） |
+| -------- | -------- | -------------| -------- | -------- |
+| index,type,id | es.index()         | es.delete()          | es.update() | es.get()    |
+| index,type    | es.index()         | es.delete_by_query() | ×           | es.search() |
+| index         | es.indices.create()| es.indices.delete()  | ×           | es.search() |
+| null          | ×                  | ×                    | ×           | es.search() |
 
 #### 参考资料
 ElasticSearch Python Client API（官方文档）  
