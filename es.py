@@ -325,6 +325,8 @@ es.py localhost cat
         printx(h['option'][args['op']])
         printx('例子：')
         printx(h['example'][args['op']])
+    else:
+        raise Exception,'无法查看 "%s" 的帮助信息'%args[args['help']]
 
 
 def main():
@@ -351,7 +353,7 @@ def main():
         elif args['op'] ==  None:
             Info(es,args)
         else:
-            pass
+            raise Exception,'无法识别该操作 --> "%s"'%args['op']
 
 
 if __name__=='__main__':
