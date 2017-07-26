@@ -1,1 +1,0 @@
-@.\ES_WIN_VENV\Scripts\python.exe es.py %1 %2 %3 %4 %5 %6 %7 %8 %9
