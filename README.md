@@ -2,7 +2,7 @@
 
 #### 声明
 * 运行环境：python 2.7
-* 依赖：elasticsearch ，安装依赖：pip install elasticsearch
+* 依赖：elasticsearch ，安装依赖：**pip install elasticsearch**
 * windows 和 linux 环境均已通过测试 
 * 如果有问题，请及时反馈给我
 
@@ -34,6 +34,14 @@ es.py [-h] IP[:port] [-h|option] [-h|index] [type] [id]
 | index,type    | es.index()         | es.delete_by_query() | ×           | es.search() | ×                |
 | index         | es.indices.create()| es.indices.delete()  | ×           | es.search() | ×                |
 | null          | ×                  | ×                    | ×           | es.search() | es.cat.indices() |
+
+#### 安装
+1. 安装 python 2.7
+2. 安装依赖  
+```pip install elasticsearch```
+3. 克隆项目
+4. 进入项目目录，运行程序，查看帮助  
+```es.py -h```
 
 #### Usage
 ```
